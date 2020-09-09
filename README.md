@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/mdsumner/vorsph/workflows/R-CMD-check/badge.svg)](https://github.com/mdsumner/vorsph/actions)
 <!-- badges: end -->
 
 The goal of vorsph is to create Voronoi edges from XYZ points on the

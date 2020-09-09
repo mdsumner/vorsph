@@ -1,0 +1,22 @@
+Package: vorsph
+Title: Spherical Voronoi
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Michael",
+           family = "Sumner",
+           role = c("aut", "cre"),
+           email = "mdsumner@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Create a mesh of edges of Voronoi cells by triangulating points
+ on the surface of a sphere and finding the dual. No spherical segmentizing is
+ done, edge segments are purely linear in XYZ. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    geosphere,
+    rgl
+Imports: 
+    geometry

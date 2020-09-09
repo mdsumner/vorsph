@@ -15,6 +15,12 @@ sphere.
 ![R console and Voronoi sphere
 plot](man/figures/2020-09-09_22_21_19-RConsole.png)
 
+## TODO
+
+  - [ ] return index of edges of cells (to build polygons etc.)
+  - [ ] segmentize edges as spherical curves (geosphere or better s2)
+  - [ ] etc.
+
 ## Installation
 
 You can install the development version from

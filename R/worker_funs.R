@@ -1,5 +1,8 @@
-## triangle centres in xyz (these are the end points of each Voronoi cell edge)
-centres <- function(x) cbind(colMeans(matrix(x[,1], 3)), colMeans(matrix(x[,2], 3)), colMeans(matrix(x[,3], 3)))
+## triangle centres in xyz (input is assumed to be triplets of triangle coordinates)
+## (these are the end points of each Voronoi cell edge)
+centres <- function(x) cbind(colMeans(matrix(x[,1], 3)),
+                             colMeans(matrix(x[,2], 3)),
+                             colMeans(matrix(x[,3], 3)))
 
 
 ## convert to edges

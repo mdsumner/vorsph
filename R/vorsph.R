@@ -32,32 +32,41 @@ ll2cart <- function (llh, rad = 6378137, exag = 1)
 #' An input matrix of XYZ coordinates is triangulated using convex hull (Delaunay on the sphere),
 #' coordinates are assumed to lie on the surface of a sphere.
 #'
-#' A list is returned with `$edges` a matrix of index pairs into `$centroids`, a matrix
+#' A list is returned with `triangles` the index of triangles created from `xyz`,
+#' `$edges` a matrix of index pairs into `$centroids`, a matrix
 #' of XYZ coordinates that are the centres of the triangles of the convex hull of `xyz`.
 #' @param xyz matrix of columns longitude, latitude, and optionally z
 #'
-#' @return list with matrix elements `edges` and `centroids`.
+#' @return list with matrix elements `triangles`, `edges` and `centroids`.
 #' @export
 #' @importFrom geometry convhulln
 #' @examples
 #' ## does the hard work (convex hull on xyz points is Delaunay triangulation)
 #' library(geometry)
 #' ## random longlat coordinates on the (geo)sphere
-#' pts <- geosphere::randomCoordinates(8000)
+#' pts <- geosphere::randomCoordinates(5000)
 #' library(rgl)
 #' vs <- voronoi_spherical(ll2cart(pts))
 #' clear3d()
-#' segments3d(vs$centroids[t(vs$edges), ])
+#' segments3d(vs$centroids[t(vs$edges), ], lit = FALSE, lwd = 2)
+#' spheres3d(0, 0, 0, 6310000, color = "lightgrey")
+#' ## add the triangles
+#' wire3d(tmesh3d(t(ll2cart(pts, rad = 6350000)), t(vs$triangles),
+#'   homogeneous = FALSE), color = grey(0.3), alpha = .8)
+#'
 #'
 #' #pts <- do.call(cbind, maps::map(plot = FALSE)[c("x", "y")])
 #' #pts <- pts[!is.na(pts[,1]), ]
 #' #pts <- pts[sort(sample(1:nrow(pts), 8000)), ]
 voronoi_spherical <- function(xyz) {
+  if (ncol(xyz) < 3) {
+    stop("input 'xyz` must be a matrix of spherical coordinates, \n perhaps use 'll2cart()' first to create from longitude,latitude values")
+  }
   ## the index of triangles
   idx <- geometry::convhulln(xyz)
   edge <- triangles_to_edge(idx)
   ## each = 3 is the triangles each edge belongs to, we then extract the triangle pairs each belongs to by its edge_id (using pmin/pmax sort to identify them)
   trs <- matrix(rep(1:nrow(idx), each = 3)[order(edge_ids(edge))],  ncol = 2L, byrow = TRUE)
-  list(edges = trs, centroids =  centres(xyz[t(idx), ]))
+  list(triangles = idx, edges = trs, centroids =  centres(xyz[t(idx), ]))
 }
 

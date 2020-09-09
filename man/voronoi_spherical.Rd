@@ -10,7 +10,7 @@ voronoi_spherical(xyz)
 \item{xyz}{matrix of columns longitude, latitude, and optionally z}
 }
 \value{
-list with matrix elements \code{edges} and \code{centroids}.
+list with matrix elements \code{triangles}, \code{edges} and \code{centroids}.
 }
 \description{
 Generate a Voronoi mesh on spherical coordinates
@@ -19,18 +19,24 @@ Generate a Voronoi mesh on spherical coordinates
 An input matrix of XYZ coordinates is triangulated using convex hull (Delaunay on the sphere),
 coordinates are assumed to lie on the surface of a sphere.
 
-A list is returned with \verb{$edges} a matrix of index pairs into \verb{$centroids}, a matrix
+A list is returned with \code{triangles} the index of triangles created from \code{xyz},
+\verb{$edges} a matrix of index pairs into \verb{$centroids}, a matrix
 of XYZ coordinates that are the centres of the triangles of the convex hull of \code{xyz}.
 }
 \examples{
 ## does the hard work (convex hull on xyz points is Delaunay triangulation)
 library(geometry)
 ## random longlat coordinates on the (geo)sphere
-pts <- geosphere::randomCoordinates(8000)
+pts <- geosphere::randomCoordinates(5000)
 library(rgl)
 vs <- voronoi_spherical(ll2cart(pts))
 clear3d()
-segments3d(vs$centroids[t(vs$edges), ])
+segments3d(vs$centroids[t(vs$edges), ], lit = FALSE, lwd = 2)
+spheres3d(0, 0, 0, 6310000, color = "lightgrey")
+## add the triangles
+wire3d(tmesh3d(t(ll2cart(pts, rad = 6350000)), t(vs$triangles),
+  homogeneous = FALSE), color = grey(0.3), alpha = .8)
+
 
 #pts <- do.call(cbind, maps::map(plot = FALSE)[c("x", "y")])
 #pts <- pts[!is.na(pts[,1]), ]

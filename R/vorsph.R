@@ -55,6 +55,19 @@ ll2cart <- function (llh, rad = 6378137, exag = 1)
 #'   homogeneous = FALSE), color = grey(0.3), alpha = .8)
 #'
 #'
+#' ## regular coordinates
+#'
+#' ptsr <- regular_coords(row = 12)
+#' vs <- voronoi_spherical(ll2cart(ptsr))
+#' clear3d()
+#' segments3d(vs$centroids[t(vs$edges), ], lit = FALSE, lwd = 2)
+#'
+#' ptss <- regular_coords(row = 1e5, prob = 0.000002)
+#' vs <- voronoi_spherical(ll2cart(ptss))
+#' clear3d()
+#' segments3d(vs$centroids[t(vs$edges), ], lit = FALSE)
+#'
+#'
 #' #pts <- do.call(cbind, maps::map(plot = FALSE)[c("x", "y")])
 #' #pts <- pts[!is.na(pts[,1]), ]
 #' #pts <- pts[sort(sample(1:nrow(pts), 8000)), ]
